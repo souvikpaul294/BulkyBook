@@ -63,7 +63,7 @@ namespace BulkyBookWeb.Controllers
             }
             return View(category);
         }
-        [HttpGet("/Category/Delete/{id:int:min(1)}")]
+        [HttpGet("/[Area]/Category/Delete/{id:int:min(1)}")]
         public IActionResult Delete(int? id)
         {
             if (id == null || id == 0)
@@ -77,7 +77,7 @@ namespace BulkyBookWeb.Controllers
             }
             return View(item);
         }
-        [HttpPost("/Category/Delete/{id:int:min(1)}"),ActionName("Delete")]
+        [HttpPost("/[Area]/Category/Delete/{id:int:min(1)}"),ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteCategory(int? id)
         {
