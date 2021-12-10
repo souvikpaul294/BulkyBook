@@ -24,14 +24,30 @@ namespace BulkyBook.DataAccess.Repository
             dbSet.Add(entity);
         }
 
-        public IEnumerable<T> GetAll()
+        public IEnumerable<T> GetAll(string? includeColumns = null)
         {
-            return dbSet.ToList();
+            IQueryable<T> query = dbSet;
+            if (!string.IsNullOrEmpty(includeColumns))
+            {
+                foreach (var column in includeColumns.Split(',', StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(column);//Include() is used to get the corresponding data from the foreign table and it works only on IQueryable objects
+                }
+            }
+            return query.ToList();
         }
 
-        public T GetFirstOrDefault(Expression<Func<T, bool>> filter)
+        public T GetFirstOrDefault(Expression<Func<T, bool>> filter, string? includeColumns = null)
         {
-            return dbSet.FirstOrDefault(filter);
+            IQueryable<T> query = dbSet;
+            if (!string.IsNullOrEmpty(includeColumns))
+            {
+                foreach (var column in includeColumns.Split(',', StringSplitOptions.RemoveEmptyEntries))
+                {
+                    query = query.Include(column);//Include() is used to get the corresponding data from the foreign table and it works only on IQueryable objects
+                }
+            }
+            return query.FirstOrDefault(filter);
         }
 
         public void Remove(T entity)
