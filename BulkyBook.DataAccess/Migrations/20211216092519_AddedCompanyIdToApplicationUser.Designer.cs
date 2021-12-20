@@ -4,6 +4,7 @@ using BulkyBook.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BulkyBook.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211216092519_AddedCompanyIdToApplicationUser")]
+    partial class AddedCompanyIdToApplicationUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -361,7 +363,9 @@ namespace BulkyBook.DataAccess.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("CompanyId")
-                        .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<int>("CompnayId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -377,7 +381,7 @@ namespace BulkyBook.DataAccess.Migrations
                     b.Property<string>("StreetAddress")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasIndex("CompanyId");
+                    b.HasIndex("CompnayId");
 
                     b.HasDiscriminator().HasValue("ApplicationUser");
                 });
@@ -456,7 +460,7 @@ namespace BulkyBook.DataAccess.Migrations
                 {
                     b.HasOne("BulkyBook.Models.Company", "Company")
                         .WithMany()
-                        .HasForeignKey("CompanyId")
+                        .HasForeignKey("CompnayId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
