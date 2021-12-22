@@ -4,7 +4,9 @@
 }
 
 <form method="post">
-    <input hidden asp-for="@Model.Product.Id" />
+    @Html.AntiForgeryToken()
+    <input hidden asp-for="Id" value="0" />
+    <input hidden asp-for="@Model.ProductId" />
         <div class="card  container pt-4 mt-2">
             <div class="card-header bg-primary text-light ml-0  row ">
                 <div class="col-12 col-md-6">
@@ -60,6 +62,7 @@
                             <div class="row pl-2">
                                 <div class="col-2 col-md-4 text-primary"><h4>Count</h4></div>
                                 <div class="col-10 col-md-8"><input asp-for="@Model.Count" class="form-control"  /></div>
+                                <span asp-validation-for="Count" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="col-12 col-lg-3 offset-lg-1 text-center">
@@ -80,3 +83,6 @@
             </div>
         </div>
 </form>
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}
