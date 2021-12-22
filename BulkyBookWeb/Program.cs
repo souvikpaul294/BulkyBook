@@ -18,6 +18,14 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddDefaultTokenProviders()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
+var section = builder.Configuration.GetSection("Paths");
+builder.Services.ConfigureApplicationCookie(config =>
+{
+    config.LoginPath = section.GetValue<string>("LoginPath");
+    config.LogoutPath = section.GetValue<string>("LogoutPath");
+    config.AccessDeniedPath = section.GetValue<string>("AccessDeniedPath");
+});
+
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddSingleton<IEmailSender, EmailSender>();
 
@@ -38,7 +46,7 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapRazorPages();
+app.MapRazorPages();//adding middleware services in the HTTP request pipeline to enable the Identity framework Razor pages
 app.MapControllerRoute(
     name: "default",
     pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}");
